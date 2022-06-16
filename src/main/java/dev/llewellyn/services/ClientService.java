@@ -7,8 +7,12 @@ import dev.llewellyn.repsitories.ClientDAO;
 
 public class ClientService {
 
-	private static ClientDAO clientDao = new ClientDAO();
-	
+	private static ClientDAO clientDao;
+
+	public ClientService(ClientDAO clientDao) {
+		ClientService.clientDao = clientDao;
+	}
+
 	public Client createClient(Client c) {
 		Client createdClient = clientDao.createClient(c);
 		return createdClient;
@@ -19,9 +23,21 @@ public class ClientService {
 	}
 
 	public Client getClientById(int id) throws Exception {
-		// this is where you could put some business logic 
-		// for example checking if the client returned by clientDao.getclientById(id) is null 
 		Client c = clientDao.getClientById(id);
+
+		if (c == null) {
+			throw new Exception("Client not found");
+		}
+
+		return c;
+	}
+
+	public void updateClient(Client uChanged) {
+		clientDao.updateClient(uChanged);
+	}
+
+	public Client deleteClient(int id) throws Exception {
+		Client c = clientDao.deleteClient(id);
 		
 		if (c == null) {
 			throw new Exception("Client not found");
@@ -30,12 +46,4 @@ public class ClientService {
 		return c;
 	}
 
-	public void deleteClient(int id) {
-		clientDao.deleteClient(id);
-	}
-	
-//	public void updateclient(Client uChanged) {
-//		clientDao.updateClient(uChanged);
-//	}
-	
 }
