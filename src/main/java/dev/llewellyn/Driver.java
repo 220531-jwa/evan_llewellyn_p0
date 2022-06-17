@@ -24,13 +24,13 @@ public class Driver {
 					path("/accounts", () -> {
 						post(AccountController::createNewAccount);
 						get(AccountController::getAllAccounts);
-						path("/{id}", () -> {
-							//get by id
-							//update account (put)
-							//delete account
-							//deposit and withdraw (patch)
-							path("/transfer", () -> {
-								//transfer between accounts (patch)
+						path("/{accountId}", () -> {
+							get(AccountController::getAccountById);
+							put(AccountController::updateAccount);
+							delete(AccountController::deleteAccount);
+							patch(AccountController::accountTransaction);
+							path("/transfer/{accountId2}", () -> {
+								patch(AccountController::accountTransfer);
 							});
 						});
 					});

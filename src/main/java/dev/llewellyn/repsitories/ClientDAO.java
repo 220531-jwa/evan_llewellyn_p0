@@ -76,7 +76,7 @@ public class ClientDAO {
 		return null;
 	}
 
-	public Client updateClient(Client changedClient) {
+	public int updateClient(Client changedClient) {
 		String sql = "update clients set first_name = ?, last_name = ? where id = ?";
 
 		try (Connection conn = cu.getConnection()) {
@@ -86,13 +86,13 @@ public class ClientDAO {
 			ps.setString(2, changedClient.getLastName());
 			ps.setInt(3, changedClient.getClientId());
 
-			ps.executeUpdate();
+			return ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return 0;
 	}
 	
 	public Client deleteClient(int id) {

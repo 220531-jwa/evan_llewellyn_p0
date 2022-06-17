@@ -32,8 +32,12 @@ public class ClientService {
 		return c;
 	}
 
-	public void updateClient(Client uChanged) {
-		clientDao.updateClient(uChanged);
+	public void updateClient(Client uChanged) throws Exception {
+		int success = clientDao.updateClient(uChanged);
+		
+		if (success == 0) {
+			throw new Exception("Client not found");
+		}
 	}
 
 	public Client deleteClient(int id) throws Exception {

@@ -58,7 +58,7 @@ public class ClientController {
 
 		try {
 			cs.deleteClient(id);
-			ctx.status(204);
+			ctx.status(205);
 		} catch (Exception e) {
 			e.printStackTrace();
 			ctx.status(404);
