@@ -14,4 +14,4 @@ Banking API
 - PostgreSQL
 - AWS RDS
 - Postman
-- JUnit
+- JUnit & Mockito
