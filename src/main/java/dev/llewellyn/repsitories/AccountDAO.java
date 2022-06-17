@@ -149,7 +149,7 @@ public class AccountDAO {
 		return null;
 	}
 
-	public void accountTransaction(int accountId, int newAmount) {
+	public int accountTransaction(int accountId, int newAmount) {
 		String sql = "update accounts set amount = ? where id = ?";
 		
 		try (Connection conn = cu.getConnection()) {
@@ -158,10 +158,12 @@ public class AccountDAO {
 			ps.setInt(1, newAmount);
 			ps.setInt(2, accountId);
 
-			ps.executeUpdate();
+			return ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return 0;
 	}
 }

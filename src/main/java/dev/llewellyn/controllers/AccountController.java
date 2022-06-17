@@ -4,12 +4,13 @@ import java.util.List;
 
 import dev.llewellyn.models.Account;
 import dev.llewellyn.repsitories.AccountDAO;
+import dev.llewellyn.repsitories.ClientDAO;
 import dev.llewellyn.services.AccountService;
 import io.javalin.http.Context;
 
 public class AccountController {
 
-	private static AccountService as = new AccountService(new AccountDAO());
+	private static AccountService as = new AccountService(new AccountDAO(), new ClientDAO());
 
 	public static void createNewAccount(Context ctx) {
 		ctx.status(201);

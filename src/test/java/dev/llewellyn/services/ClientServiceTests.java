@@ -1,13 +1,11 @@
 package dev.llewellyn.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,36 +18,72 @@ import dev.llewellyn.repsitories.ClientDAO;
 @ExtendWith(MockitoExtension.class)
 public class ClientServiceTests {
 	
-	// An instance of the class we are testing - a real instance
 	@InjectMocks
-	private static ClientService clientService;
+	private static ClientService cs;
 	
-	// Since we want to test only the functionality of the UserService class
-	// we will mock and dependencies the class relies on
 	@Mock
 	private static ClientDAO mockClientDao;
 	
-//	@BeforeAll
-//	public static void setUp() {
-//		clientService = new ClientService();
-//		
-//		// Dummy instance that has no actual functionality
-//		mockClientDao = mock(ClientDAO.class);
-//	}
+	// Note: Tests work when run individually, but not when run all together
+	// Some issue with the mock instance
 	
 	@Test
-	public void should_ReturnAllClients() {
-		// given - 3 clients in DB
+	public void shouldReturnNewClient() {
+		Client c = new Client(1, "Jay", "Crandal");
+		
+		when(mockClientDao.createClient(c)).thenReturn(c);
+		
+		assertEquals(c, cs.createClient(c));
+	}
+	
+	@Test
+	public void shouldReturnAllClients() {
 		List<Client> clientsMock = new ArrayList<>();
 		clientsMock.add(new Client(1, "Evan", "Llewellyn"));
 		clientsMock.add(new Client(2, "Dan", "Felleman"));
 		clientsMock.add(new Client(3, "Big", "Papi"));
 		
-		// when - ClientService's getAllClients method is called
 		when(mockClientDao.getAllClients()).thenReturn(clientsMock);
 		
-		// then - it should return all users
-		assertEquals(clientsMock, clientService.getAllClients());
+		assertEquals(clientsMock, cs.getAllClients());
 	}
 	
+	@Test
+	public void shouldReturnClientById() {
+		Client c = new Client(5, "Drake", "Bell");
+		
+		when(mockClientDao.getClientById(5)).thenReturn(c);
+		
+		try {
+			assertEquals(c, cs.getClientById(5));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void shouldReturnSucessAfterClientUpdate() {
+		Client cNew = new Client(2, "Frank", "Johnson");
+		
+		when(mockClientDao.updateClient(cNew)).thenReturn(1);
+		
+		try {
+			assertEquals(1, cs.updateClient(cNew));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void shouldReturnDeletedClient() {
+		Client c = new Client(2, "Josh", "Bell");
+		
+		when(mockClientDao.deleteClient(2)).thenReturn(c);
+		
+		try {
+			assertEquals(c, cs.deleteClient(2));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
